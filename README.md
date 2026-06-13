@@ -8,6 +8,7 @@
                 <span class="badge badge-requirement">Requires: Ox_Lib</span>
             </div>
             <p style="color: #8b949e; margin-top: 8px; font-size: 11pt;">Highly optimized, interactive, and customizable player head-up display tailored for PvP environments in FiveM.</p>
+            <p>Locales: cs,en</p>
         </div>
 
 </body>
