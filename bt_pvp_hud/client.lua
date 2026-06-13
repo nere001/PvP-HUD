@@ -1,3 +1,13 @@
+Config = {}
+Config.Locale = 'en'
+
+local function T(key, ...)
+    if Locales and Locales[Config.Locale] and Locales[Config.Locale][key] then
+        return string.format(Locales[Config.Locale][key], ...)
+    end
+    return key
+end
+
 local hudVisible = true
 local hudPosition = { x = nil, y = 30 }
 local hudScale = 100
@@ -23,11 +33,11 @@ end)
 RegisterCommand('hud', function()
     lib.registerContext({
         id = 'hud_menu',
-        title = 'BT PvP HUD',
+        title = T('menu_title'),
         options = {
             {
-                title = 'Presunout HUD',
-                description = 'Klikni a tahni HUD levym tlacitkem. Pravym tlacitkem pozici ulozis.',
+                title = T('move_hud_title'),
+                description = T('move_hud_desc'),
                 icon = 'arrows-up-down-left-right',
                 onSelect = function()
                     SendNUIMessage({ action = 'enterMoveMode' })
@@ -35,14 +45,14 @@ RegisterCommand('hud', function()
                 end
             },
             {
-                title = 'Velikost',
-                description = 'Aktualni: ' .. hudScale .. '%',
+                title = T('scale_title'),
+                description = T('scale_desc', hudScale),
                 icon = 'maximize',
                 onSelect = function()
-                    local input = lib.inputDialog('Nastaveni velikosti', {
+                    local input = lib.inputDialog(T('scale_dialog_title'), {
                         { 
                             type = 'slider', 
-                            label = 'Meritko HUDu v %', 
+                            label = T('scale_dialog_label'), 
                             default = hudScale, 
                             min = 50, 
                             max = 150, 
@@ -57,19 +67,19 @@ RegisterCommand('hud', function()
                 end
             },
             {
-                title = 'Reset',
-                description = 'Resetovat pozici a velikost',
+                title = T('reset_title'),
+                description = T('reset_desc'),
                 icon = 'rotate-left',
                 onSelect = function()
                     hudPosition = { x = nil, y = 30 }
                     hudScale = 100
                     SendNUIMessage({ action = 'resetAll', scale = 100 })
-                    lib.notify({ description = 'Resetovano', type = 'success' })
+                    lib.notify({ description = T('reset_notify'), type = 'success' })
                 end
             },
             {
-                title = hudVisible and 'Skryt HUD' or 'Zobrazit HUD',
-                description = 'Zapne nebo vypne zobrazeni HUDu',
+                title = hudVisible and T('hide_hud_title') or T('show_hud_title'),
+                description = T('toggle_hud_desc'),
                 icon = hudVisible and 'eye-slash' or 'eye',
                 onSelect = function()
                     hudVisible = not hudVisible
